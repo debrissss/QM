@@ -64,17 +64,33 @@ fun TimerScreen(
         ) {
             val dialogWindow = (LocalView.current.parent as? DialogWindowProvider)?.window
             SideEffect {
-                // Completely hide Dialog system bars
+                // Completely hide Dialog system bars and force black colors
                 dialogWindow?.let { window ->
-                    window.attributes = window.attributes.apply { screenBrightness = 0.01f }
+                    window.attributes = window.attributes.apply { 
+                        screenBrightness = 0.01f 
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                            layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                        }
+                    }
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                    window.statusBarColor = android.graphics.Color.BLACK
+                    window.navigationBarColor = android.graphics.Color.BLACK
                     WindowCompat.getInsetsController(window, window.decorView).run {
                         hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
                         systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                     }
                 }
-                // Also hide Activity system bars to be safe
+                // Also completely hide Activity system bars and force black colors
                 activity?.window?.let { window ->
-                    window.attributes = window.attributes.apply { screenBrightness = 0.01f }
+                    window.attributes = window.attributes.apply { 
+                        screenBrightness = 0.01f 
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                            layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                        }
+                    }
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                    window.statusBarColor = android.graphics.Color.BLACK
+                    window.navigationBarColor = android.graphics.Color.BLACK
                     WindowCompat.getInsetsController(window, view).run {
                         hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
                         systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -90,12 +106,17 @@ fun TimerScreen(
         }
         return // Render NOTHING else, just deep black.
     } else {
-        // Restore screen brightness when not focusing
+        // Restore screen brightness and status bar colors when not focusing
         SideEffect {
             activity?.window?.let { window ->
                 window.attributes = window.attributes.apply { 
                     screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE 
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                        layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
+                    }
                 }
+                window.statusBarColor = android.graphics.Color.TRANSPARENT // Let theme handle it
+                window.navigationBarColor = android.graphics.Color.TRANSPARENT // Let theme handle it
                 WindowCompat.getInsetsController(window, view).run {
                     show(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
                 }

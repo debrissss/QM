@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.lym.quietmind.app-mergeDebugResources-57:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "/Users/lym/.gradle/caches/transforms-4/b42aaabb5f34528a15a40f20da20de68/transformed/material3-release/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}

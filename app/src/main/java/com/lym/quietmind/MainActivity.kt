@@ -67,7 +67,10 @@ fun QuietMindApp() {
                                     saveState = true
                                 }
                                 launchSingleTop = true
-                                restoreState = true
+                                // Do not restore state for settings so it always opens the home screen
+                                if (route != "settings_graph") {
+                                    restoreState = true
+                                }
                             }
                         }
                     )

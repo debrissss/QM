@@ -11,11 +11,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import com.lym.quietmind.viewmodel.DashboardViewModel
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
 import com.patrykandpatrick.vico.compose.chart.line.lineChart
+import com.patrykandpatrick.vico.compose.component.textComponent
 import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
 import com.patrykandpatrick.vico.core.entry.FloatEntry
 import kotlinx.coroutines.Dispatchers
@@ -29,12 +33,28 @@ fun DashboardScreen(
     val tabs = listOf("日", "周", "月")
 
     val chartEntryModelProducer = remember { ChartEntryModelProducer() }
+    val pagerState = rememberPagerState(pageCount = { tabs.size }, initialPage = uiState.currentTab)
+    val coroutineScope = rememberCoroutineScope()
     
     // Refresh data when the screen is navigated to
     LaunchedEffect(Unit) {
         viewModel.refreshData()
     }
     
+    // Sync UI swipe -> ViewModel
+    LaunchedEffect(pagerState.currentPage) {
+        if (uiState.currentTab != pagerState.currentPage) {
+            viewModel.setTab(pagerState.currentPage)
+        }
+    }
+    
+    // Sync ViewModel change -> UI swipe (for tab click)
+    LaunchedEffect(uiState.currentTab) {
+        if (pagerState.currentPage != uiState.currentTab) {
+            pagerState.animateScrollToPage(uiState.currentTab)
+        }
+    }
+
     // Auto-update chart whenever recentSessions change
     LaunchedEffect(uiState.recentSessions) {
         if (uiState.recentSessions.isNotEmpty()) {
@@ -50,28 +70,37 @@ fun DashboardScreen(
     Scaffold(
         topBar = {
             TabRow(
-                selectedTabIndex = uiState.currentTab,
+                selectedTabIndex = pagerState.currentPage,
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.primary
             ) {
                 tabs.forEachIndexed { index, title ->
                     Tab(
-                        selected = uiState.currentTab == index,
-                        onClick = { viewModel.setTab(index) },
-                        text = { Text(title, fontWeight = if (uiState.currentTab == index) FontWeight.Bold else FontWeight.Normal) }
+                        selected = pagerState.currentPage == index,
+                        onClick = { 
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                        text = { Text(title, fontWeight = if (pagerState.currentPage == index) FontWeight.Bold else FontWeight.Normal) }
                     )
                 }
             }
         }
     ) { paddingValues ->
-        LazyColumn(
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+        ) { page ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
             // Summary Cards
             item {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -116,8 +145,20 @@ fun DashboardScreen(
                             Chart(
                                 chart = lineChart(),
                                 chartModelProducer = chartEntryModelProducer,
-                                startAxis = rememberStartAxis(),
-                                bottomAxis = rememberBottomAxis(),
+                                startAxis = rememberStartAxis(
+                                    title = "时长",
+                                    titleComponent = textComponent(
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        textSize = 12.sp
+                                    )
+                                ),
+                                bottomAxis = rememberBottomAxis(
+                                    title = "序列",
+                                    titleComponent = textComponent(
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        textSize = 12.sp
+                                    )
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(200.dp)
@@ -156,7 +197,8 @@ fun DashboardScreen(
                     }
                 }
             }
-        }
+        } // End LazyColumn
+        } // End HorizontalPager
     }
 }
 

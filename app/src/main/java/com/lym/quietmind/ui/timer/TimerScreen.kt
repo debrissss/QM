@@ -22,7 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.DialogWindowProvider
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.lym.quietmind.viewmodel.TimerStatus
 import com.lym.quietmind.viewmodel.TimerViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -50,16 +53,6 @@ fun TimerScreen(
 
     // Full Black Overlay Logic for Focus Mode
     if (uiState.status == TimerStatus.FOCUSING) {
-        SideEffect {
-            // Drop brightness to 0.01 to mimic screen off (requires activity context)
-            val config = activity?.window?.attributes
-            config?.screenBrightness = 0.01f
-            activity?.window?.attributes = config
-            WindowCompat.getInsetsController(activity?.window!!, view).run {
-                hide(android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars())
-            }
-        }
-        
         Dialog(
             onDismissRequest = { /* Cannot be dismissed directly */ },
             properties = DialogProperties(
@@ -69,6 +62,26 @@ fun TimerScreen(
                 decorFitsSystemWindows = false
             )
         ) {
+            val dialogWindow = (LocalView.current.parent as? DialogWindowProvider)?.window
+            SideEffect {
+                // Completely hide Dialog system bars
+                dialogWindow?.let { window ->
+                    window.attributes = window.attributes.apply { screenBrightness = 0.01f }
+                    WindowCompat.getInsetsController(window, window.decorView).run {
+                        hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+                        systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    }
+                }
+                // Also hide Activity system bars to be safe
+                activity?.window?.let { window ->
+                    window.attributes = window.attributes.apply { screenBrightness = 0.01f }
+                    WindowCompat.getInsetsController(window, view).run {
+                        hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+                        systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                    }
+                }
+            }
+            
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -79,11 +92,13 @@ fun TimerScreen(
     } else {
         // Restore screen brightness when not focusing
         SideEffect {
-            val config = activity?.window?.attributes
-            config?.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
-            activity?.window?.attributes = config
-            WindowCompat.getInsetsController(activity?.window!!, view).run {
-                show(android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars())
+            activity?.window?.let { window ->
+                window.attributes = window.attributes.apply { 
+                    screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE 
+                }
+                WindowCompat.getInsetsController(window, view).run {
+                    show(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+                }
             }
         }
     }

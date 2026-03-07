@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.view.WindowCompat
 import com.lym.quietmind.viewmodel.TimerStatus
 import com.lym.quietmind.viewmodel.TimerViewModel
@@ -58,11 +60,21 @@ fun TimerScreen(
             }
         }
         
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-        )
+        Dialog(
+            onDismissRequest = { /* Cannot be dismissed directly */ },
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+                usePlatformDefaultWidth = false,
+                decorFitsSystemWindows = false
+            )
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+            )
+        }
         return // Render NOTHING else, just deep black.
     } else {
         // Restore screen brightness when not focusing

@@ -12,6 +12,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
 enum class TimerStatus {
@@ -85,10 +88,14 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    @OptIn(FlowPreview::class)
     private fun observeDeviceOrientation() {
         orientationJob?.cancel()
         orientationJob = viewModelScope.launch {
-            orientationTracker.getFaceDownFlow().collect { isFaceDown ->
+            orientationTracker.getFaceDownFlow()
+                .distinctUntilChanged()
+                .debounce(500L) // Wait for 500ms to ensure the phone is steadily placed down or up
+                .collect { isFaceDown ->
                 val state = _uiState.value
                 when (state.status) {
                     TimerStatus.PENDING_TURN -> {

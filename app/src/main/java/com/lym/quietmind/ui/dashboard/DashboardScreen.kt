@@ -30,6 +30,11 @@ fun DashboardScreen(
 
     val chartEntryModelProducer = remember { ChartEntryModelProducer() }
     
+    // Refresh data when the screen is navigated to
+    LaunchedEffect(Unit) {
+        viewModel.refreshData()
+    }
+    
     // Auto-update chart whenever recentSessions change
     LaunchedEffect(uiState.recentSessions) {
         if (uiState.recentSessions.isNotEmpty()) {

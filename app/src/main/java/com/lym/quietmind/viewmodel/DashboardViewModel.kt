@@ -35,6 +35,10 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         loadDataForTab(0)
     }
 
+    fun refreshData() {
+        loadDataForTab(_uiState.value.currentTab)
+    }
+
     fun setTab(index: Int) {
         _uiState.value = _uiState.value.copy(currentTab = index)
         loadDataForTab(index)

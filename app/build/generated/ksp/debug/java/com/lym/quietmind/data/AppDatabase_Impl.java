@@ -11,6 +11,8 @@ import androidx.room.util.DBUtil;
 import androidx.room.util.TableInfo;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import com.lym.quietmind.data.dao.EntertainmentDao;
+import com.lym.quietmind.data.dao.EntertainmentDao_Impl;
 import com.lym.quietmind.data.dao.FocusSessionDao;
 import com.lym.quietmind.data.dao.FocusSessionDao_Impl;
 import java.lang.Class;
@@ -30,20 +32,24 @@ import javax.annotation.processing.Generated;
 public final class AppDatabase_Impl extends AppDatabase {
   private volatile FocusSessionDao _focusSessionDao;
 
+  private volatile EntertainmentDao _entertainmentDao;
+
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(2) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(3) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `focus_sessions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `dayIndex` INTEGER NOT NULL, `startTime` INTEGER NOT NULL, `targetDuration` REAL NOT NULL, `actualDuration` REAL NOT NULL, `taskWeight` REAL NOT NULL, `distractionCount` INTEGER NOT NULL, `firstDistractionTime` REAL NOT NULL, `interruptionReasons` TEXT NOT NULL, `endReason` TEXT NOT NULL, `fqs` REAL NOT NULL, `efd` REAL NOT NULL)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `entertainment_records` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startTime` INTEGER NOT NULL, `type` TEXT NOT NULL, `durationSeconds` INTEGER NOT NULL)");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bf46c2a7c035676872e8ac462731d7c4')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c608b8ed96fb5130cd1e154601751e48')");
       }
 
       @Override
       public void dropAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS `focus_sessions`");
+        db.execSQL("DROP TABLE IF EXISTS `entertainment_records`");
         final List<? extends RoomDatabase.Callback> _callbacks = mCallbacks;
         if (_callbacks != null) {
           for (RoomDatabase.Callback _callback : _callbacks) {
@@ -109,9 +115,23 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoFocusSessions + "\n"
                   + " Found:\n" + _existingFocusSessions);
         }
+        final HashMap<String, TableInfo.Column> _columnsEntertainmentRecords = new HashMap<String, TableInfo.Column>(4);
+        _columnsEntertainmentRecords.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEntertainmentRecords.put("startTime", new TableInfo.Column("startTime", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEntertainmentRecords.put("type", new TableInfo.Column("type", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEntertainmentRecords.put("durationSeconds", new TableInfo.Column("durationSeconds", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysEntertainmentRecords = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesEntertainmentRecords = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoEntertainmentRecords = new TableInfo("entertainment_records", _columnsEntertainmentRecords, _foreignKeysEntertainmentRecords, _indicesEntertainmentRecords);
+        final TableInfo _existingEntertainmentRecords = TableInfo.read(db, "entertainment_records");
+        if (!_infoEntertainmentRecords.equals(_existingEntertainmentRecords)) {
+          return new RoomOpenHelper.ValidationResult(false, "entertainment_records(com.lym.quietmind.data.entity.EntertainmentRecordEntity).\n"
+                  + " Expected:\n" + _infoEntertainmentRecords + "\n"
+                  + " Found:\n" + _existingEntertainmentRecords);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "bf46c2a7c035676872e8ac462731d7c4", "90d47b9931932f5194f9862a47df16de");
+    }, "c608b8ed96fb5130cd1e154601751e48", "4d9a392e040687fa87b29fb021d66d3f");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;
@@ -122,7 +142,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     final HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "focus_sessions");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "focus_sessions","entertainment_records");
   }
 
   @Override
@@ -132,6 +152,7 @@ public final class AppDatabase_Impl extends AppDatabase {
     try {
       super.beginTransaction();
       _db.execSQL("DELETE FROM `focus_sessions`");
+      _db.execSQL("DELETE FROM `entertainment_records`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
@@ -147,6 +168,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   protected Map<Class<?>, List<Class<?>>> getRequiredTypeConverters() {
     final HashMap<Class<?>, List<Class<?>>> _typeConvertersMap = new HashMap<Class<?>, List<Class<?>>>();
     _typeConvertersMap.put(FocusSessionDao.class, FocusSessionDao_Impl.getRequiredConverters());
+    _typeConvertersMap.put(EntertainmentDao.class, EntertainmentDao_Impl.getRequiredConverters());
     return _typeConvertersMap;
   }
 
@@ -175,6 +197,20 @@ public final class AppDatabase_Impl extends AppDatabase {
           _focusSessionDao = new FocusSessionDao_Impl(this);
         }
         return _focusSessionDao;
+      }
+    }
+  }
+
+  @Override
+  public EntertainmentDao entertainmentDao() {
+    if (_entertainmentDao != null) {
+      return _entertainmentDao;
+    } else {
+      synchronized(this) {
+        if(_entertainmentDao == null) {
+          _entertainmentDao = new EntertainmentDao_Impl(this);
+        }
+        return _entertainmentDao;
       }
     }
   }

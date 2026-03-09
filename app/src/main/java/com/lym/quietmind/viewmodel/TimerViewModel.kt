@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.lym.quietmind.data.AppDatabase
 import com.lym.quietmind.data.entity.FocusSessionEntity
+import com.lym.quietmind.data.entity.EntertainmentRecordEntity
 import com.lym.quietmind.domain.FocusAlgorithms
 import com.lym.quietmind.sensor.DeviceOrientationTracker
 import kotlinx.coroutines.Job
@@ -22,13 +23,14 @@ enum class TimerStatus {
     PENDING_TURN,      // 已启动，等待 60 秒内将手机倒扣
     FOCUSING,          // 专注中，处于黑屏状态，静默计时
     INTERRUPTED,       // 专注被意外打断（手机被翻起），等待输入原因
+    ENTERTAINING,      // 娱乐中，正计时放纵时间
     COMPLETED          // 正常完成（也可以在 INTERRUPTED 状态强制终结）
 }
 
 data class TimerUiState(
     val status: TimerStatus = TimerStatus.IDLE,
     val targetDurationMinutes: Double = 60.0,
-    val elapsedSeconds: Long = 0L,         // 已经专注的有效秒数
+    val elapsedSeconds: Long = 0L,         // 已经专注的有效秒数 或 娱乐的时长秒数
     val pendingCountdownSeconds: Int = 60, // 启动后等待翻转的倒数
     val interruptionCount: Int = 0,
     val firstInterruptionTimeMinutes: Double? = null,
@@ -41,6 +43,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db = AppDatabase.getDatabase(application)
     private val sessionDao = db.focusSessionDao()
+    private val entertainmentDao = db.entertainmentDao()
     private val orientationTracker = DeviceOrientationTracker(application)
 
     private val _uiState = MutableStateFlow(TimerUiState())
@@ -49,6 +52,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
     private var orientationJob: Job? = null
     private var timerJob: Job? = null
     private var pendingCountdownJob: Job? = null
+    private var entertainJob: Job? = null
 
     init {
         // Initial setup: pull the latest base target from history
@@ -127,6 +131,7 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
     private fun switchToFocusing() {
         _uiState.value = _uiState.value.copy(status = TimerStatus.FOCUSING)
         timerJob?.cancel()
+        entertainJob?.cancel()
         timerJob = viewModelScope.launch {
             while (_uiState.value.status == TimerStatus.FOCUSING) {
                 delay(1000L)
@@ -211,8 +216,51 @@ class TimerViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetTimer() {
         timerJob?.cancel()
+        entertainJob?.cancel()
         orientationJob?.cancel()
         pendingCountdownJob?.cancel()
         _uiState.value = TimerUiState(targetDurationMinutes = _uiState.value.targetDurationMinutes)
+    }
+
+    // --- 新增：娱乐与冲动追踪 ---
+    fun startEntertainment() {
+        if (_uiState.value.status != TimerStatus.IDLE) return
+        _uiState.value = _uiState.value.copy(
+            status = TimerStatus.ENTERTAINING,
+            elapsedSeconds = 0
+        )
+        entertainJob?.cancel()
+        entertainJob = viewModelScope.launch {
+            while (_uiState.value.status == TimerStatus.ENTERTAINING) {
+                delay(1000L)
+                _uiState.value = _uiState.value.copy(elapsedSeconds = _uiState.value.elapsedSeconds + 1)
+            }
+        }
+    }
+
+    fun stopEntertainment() {
+        entertainJob?.cancel()
+        val duration = _uiState.value.elapsedSeconds
+        
+        viewModelScope.launch {
+            entertainmentDao.insertRecord(
+                EntertainmentRecordEntity(
+                    type = "SESSION",
+                    durationSeconds = duration
+                )
+            )
+        }
+        resetTimer()
+    }
+
+    fun recordImpulse() {
+        viewModelScope.launch {
+            entertainmentDao.insertRecord(
+                EntertainmentRecordEntity(
+                    type = "IMPULSE",
+                    durationSeconds = 0L
+                )
+            )
+        }
     }
 }

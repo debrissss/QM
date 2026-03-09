@@ -21,6 +21,7 @@
         android:extractNativeLibs="false"
         android:label="QuietMind"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar" >
         <activity
             android:name="com.lym.quietmind.MainActivity"

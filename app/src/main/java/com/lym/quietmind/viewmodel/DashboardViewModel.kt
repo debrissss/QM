@@ -20,6 +20,8 @@ data class DashboardUiState(
     val gnpsEndurance: Double = 0.0,
     val gnpsPurity: Double = 0.0,
     val gnpsResistance: Double = 0.0,
+    val totalEntertainmentDurationMinutes: Double = 0.0,
+    val totalImpulseCount: Int = 0,
     val recentSessions: List<FocusSessionEntity> = emptyList()
 )
 
@@ -27,6 +29,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val db = AppDatabase.getDatabase(application)
     private val sessionDao = db.focusSessionDao()
+    private val entertainmentDao = db.entertainmentDao()
 
     private val _uiState = MutableStateFlow(DashboardUiState())
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
@@ -72,8 +75,13 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             // Since we don't have a specific time query in DAO yet, let's pull all and filter or add DAO method.
             // For now, let's pull all from DAO (in real app add `SELECT * FROM ... WHERE startTime >= :start`)
             val allHistory = sessionDao.getAllHistoryRaw()
-            
             val filtered = allHistory.filter { it.startTime >= startTime }
+
+            val allEntertainmentHistory = entertainmentDao.getAllHistoryRaw()
+            val filteredEntertainment = allEntertainmentHistory.filter { it.startTime >= startTime }
+
+            val enterDurationSecs = filteredEntertainment.filter { it.type == "SESSION" }.sumOf { it.durationSeconds }
+            val impulseCount = filteredEntertainment.count { it.type == "IMPULSE" }
 
             val totalDur = filtered.sumOf { it.actualDuration }
             val avgDur = if (filtered.isEmpty()) 0.0 else totalDur / filtered.size
@@ -98,7 +106,9 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
                 recentSessions = filtered,
                 gnpsEndurance = endurance,
                 gnpsPurity = purity,
-                gnpsResistance = resistance
+                gnpsResistance = resistance,
+                totalEntertainmentDurationMinutes = enterDurationSecs / 60.0,
+                totalImpulseCount = impulseCount
             )
         }
     }

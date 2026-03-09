@@ -14,14 +14,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.launch
 import com.lym.quietmind.viewmodel.DashboardViewModel
-import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
-import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
-import com.patrykandpatrick.vico.compose.chart.Chart
-import com.patrykandpatrick.vico.compose.chart.line.lineChart
-import com.patrykandpatrick.vico.compose.component.textComponent
-import com.patrykandpatrick.vico.core.entry.ChartEntryModelProducer
-import com.patrykandpatrick.vico.core.entry.FloatEntry
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -32,7 +26,6 @@ fun DashboardScreen(
     val uiState by viewModel.uiState.collectAsState()
     val tabs = listOf("日", "周", "月")
 
-    val chartEntryModelProducer = remember { ChartEntryModelProducer() }
     val pagerState = rememberPagerState(pageCount = { tabs.size }, initialPage = uiState.currentTab)
     val coroutineScope = rememberCoroutineScope()
     
@@ -52,18 +45,6 @@ fun DashboardScreen(
     LaunchedEffect(uiState.currentTab) {
         if (pagerState.currentPage != uiState.currentTab) {
             pagerState.animateScrollToPage(uiState.currentTab)
-        }
-    }
-
-    // Auto-update chart whenever recentSessions change
-    LaunchedEffect(uiState.recentSessions) {
-        if (uiState.recentSessions.isNotEmpty()) {
-            withContext(Dispatchers.Default) {
-                val entries = uiState.recentSessions.mapIndexed { index, entity -> 
-                    FloatEntry(x = index.toFloat(), y = entity.actualDuration.toFloat())
-                }
-                chartEntryModelProducer.setEntries(entries)
-            }
         }
     }
 
@@ -132,46 +113,31 @@ fun DashboardScreen(
                 }
             }
 
-            // Line Chart
+            // Entertainment & Impulse Display
             item {
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
-                        Text("近期时长趋势 (分钟)", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        if (uiState.recentSessions.isNotEmpty()) {
-                            Chart(
-                                chart = lineChart(),
-                                chartModelProducer = chartEntryModelProducer,
-                                startAxis = rememberStartAxis(
-                                    title = "时长",
-                                    titleComponent = textComponent(
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        textSize = 12.sp
-                                    )
-                                ),
-                                bottomAxis = rememberBottomAxis(
-                                    title = "序列",
-                                    titleComponent = textComponent(
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        textSize = 12.sp
-                                    )
-                                ),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp)
+                        Text(
+                            "欲望观察 (Entertainment & Impulse)", 
+                            color = MaterialTheme.colorScheme.onSecondaryContainer, 
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            StatCard(
+                                title = "娱放纵 (分钟)",
+                                value = buildString { append(String.format("%.1f", uiState.totalEntertainmentDurationMinutes)) },
+                                modifier = Modifier.weight(1f)
                             )
-                        } else {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp),
-                                contentAlignment = androidx.compose.ui.Alignment.Center
-                            ) {
-                                Text("此区间暂无数据", color = Color.Gray)
-                            }
+                            StatCard(
+                                title = "冲动克制 (次)",
+                                value = uiState.totalImpulseCount.toString(),
+                                modifier = Modifier.weight(1f)
+                            )
                         }
                     }
                 }

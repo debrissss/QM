@@ -31,102 +31,103 @@
 22-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:6:9-34
 23        android:supportsRtl="true"
 23-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:7:9-35
-24        android:theme="@android:style/Theme.DeviceDefault.NoActionBar" >
-24-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:8:9-71
-25        <activity
-25-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:10:9-18:20
-26            android:name="com.lym.quietmind.MainActivity"
-26-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:11:13-41
-27            android:exported="true"
-27-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:12:13-36
-28            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" >
-28-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:13:13-75
-29            <intent-filter>
-29-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:14:13-17:29
-30                <action android:name="android.intent.action.MAIN" />
-30-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:15:17-69
-30-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:15:25-66
-31
-32                <category android:name="android.intent.category.LAUNCHER" />
-32-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:16:17-77
-32-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:16:27-74
-33            </intent-filter>
-34        </activity>
-35
-36        <provider
-36-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
-37            android:name="androidx.startup.InitializationProvider"
-37-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
-38            android:authorities="com.lym.quietmind.androidx-startup"
-38-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
-39            android:exported="false" >
-39-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
-40            <meta-data
-40-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
-41                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-41-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
-42                android:value="androidx.startup" />
-42-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
-43            <meta-data
-43-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/lym/.gradle/caches/transforms-4/3f155ccfaca7976edd0e6cbb099ae84b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
-44                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-44-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/lym/.gradle/caches/transforms-4/3f155ccfaca7976edd0e6cbb099ae84b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
-45                android:value="androidx.startup" />
-45-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/lym/.gradle/caches/transforms-4/3f155ccfaca7976edd0e6cbb099ae84b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
-46            <meta-data
-46-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
-47                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-47-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
-48                android:value="androidx.startup" />
-48-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
-49        </provider>
-50
-51        <service
-51-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
-52            android:name="androidx.room.MultiInstanceInvalidationService"
-52-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
-53            android:directBootAware="true"
-53-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
-54            android:exported="false" />
-54-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
-55
-56        <receiver
-56-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
-57            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-57-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
-58            android:directBootAware="false"
-58-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
-59            android:enabled="true"
-59-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
-60            android:exported="true"
-60-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
-61            android:permission="android.permission.DUMP" >
-61-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
-62            <intent-filter>
-62-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
-63                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-63-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
-63-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
-64            </intent-filter>
-65            <intent-filter>
-65-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
-66                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-66-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
-66-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
-67            </intent-filter>
-68            <intent-filter>
-68-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
-69                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-69-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
-69-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
-70            </intent-filter>
-71            <intent-filter>
-71-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
-72                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-72-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
-72-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
-73            </intent-filter>
-74        </receiver>
-75    </application>
-76
-77</manifest>
+24        android:testOnly="true"
+25        android:theme="@android:style/Theme.DeviceDefault.NoActionBar" >
+25-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:8:9-71
+26        <activity
+26-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:10:9-18:20
+27            android:name="com.lym.quietmind.MainActivity"
+27-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:11:13-41
+28            android:exported="true"
+28-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:12:13-36
+29            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" >
+29-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:13:13-75
+30            <intent-filter>
+30-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:14:13-17:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:15:17-69
+31-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:15:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:16:17-77
+33-->/Users/lym/Documents/Antigravity/QM/app/src/main/AndroidManifest.xml:16:27-74
+34            </intent-filter>
+35        </activity>
+36
+37        <provider
+37-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+38            android:name="androidx.startup.InitializationProvider"
+38-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+39            android:authorities="com.lym.quietmind.androidx-startup"
+39-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+40            android:exported="false" >
+40-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+41            <meta-data
+41-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+42                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+42-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+43                android:value="androidx.startup" />
+43-->[androidx.emoji2:emoji2:1.3.0] /Users/lym/.gradle/caches/transforms-4/6fccfb0009fcb80e6556422266c0173e/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+44            <meta-data
+44-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/lym/.gradle/caches/transforms-4/3f155ccfaca7976edd0e6cbb099ae84b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:29:13-31:52
+45                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+45-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/lym/.gradle/caches/transforms-4/3f155ccfaca7976edd0e6cbb099ae84b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:30:17-78
+46                android:value="androidx.startup" />
+46-->[androidx.lifecycle:lifecycle-process:2.8.7] /Users/lym/.gradle/caches/transforms-4/3f155ccfaca7976edd0e6cbb099ae84b/transformed/lifecycle-process-2.8.7/AndroidManifest.xml:31:17-49
+47            <meta-data
+47-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+48                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+48-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+49                android:value="androidx.startup" />
+49-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+50        </provider>
+51
+52        <service
+52-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+53            android:name="androidx.room.MultiInstanceInvalidationService"
+53-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+54            android:directBootAware="true"
+54-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+55            android:exported="false" />
+55-->[androidx.room:room-runtime:2.6.1] /Users/lym/.gradle/caches/transforms-4/8d48d874c31caba5fbb705cb3133eb35/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+56
+57        <receiver
+57-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+58            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+58-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+59            android:directBootAware="false"
+59-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+60            android:enabled="true"
+60-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+61            android:exported="true"
+61-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+62            android:permission="android.permission.DUMP" >
+62-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+63            <intent-filter>
+63-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+64                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+64-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+64-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+65            </intent-filter>
+66            <intent-filter>
+66-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+67                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+67-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+67-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+68            </intent-filter>
+69            <intent-filter>
+69-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+70                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+70-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+70-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+71            </intent-filter>
+72            <intent-filter>
+72-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+73                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+73-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+73-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/lym/.gradle/caches/transforms-4/b449f6df39cbad15926ee54a2cd901f5/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+74            </intent-filter>
+75        </receiver>
+76    </application>
+77
+78</manifest>

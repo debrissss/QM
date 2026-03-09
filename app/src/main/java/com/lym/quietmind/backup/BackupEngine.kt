@@ -2,20 +2,28 @@ package com.lym.quietmind.backup
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.lym.quietmind.data.dao.FocusSessionDao
-import com.lym.quietmind.data.entity.FocusSessionEntity
+import com.lym.quietmind.data.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.io.OutputStream
 
-class BackupEngine(private val dao: FocusSessionDao) {
+class BackupEngine(private val db: AppDatabase) {
+    private val focusDao = db.focusSessionDao()
+    private val entertainDao = db.entertainmentDao()
     private val gson = Gson()
 
     suspend fun exportData(outputStream: OutputStream): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            val allHistory = dao.getAllHistoryRaw()
-            val jsonString = gson.toJson(allHistory)
+            val focusHistory = focusDao.getAllHistoryRaw()
+            val entertainHistory = entertainDao.getAllHistoryRaw()
+            
+            val backupData = BackupData(
+                focusSessions = focusHistory,
+                entertainmentRecords = entertainHistory
+            )
+            
+            val jsonString = gson.toJson(backupData)
             
             outputStream.bufferedWriter().use { writer ->
                 writer.write(jsonString)
@@ -35,21 +43,30 @@ class BackupEngine(private val dao: FocusSessionDao) {
                 return@withContext Result.failure(Exception("Backup file is empty."))
             }
 
-            val listType = object : TypeToken<List<FocusSessionEntity>>() {}.type
-            val importedData: List<FocusSessionEntity> = gson.fromJson(jsonString, listType)
+            val importedData: BackupData = gson.fromJson(jsonString, BackupData::class.java)
 
             // Validate the imported data structure roughly
-            if (importedData == null) {
-                return@withContext Result.failure(Exception("Cannot parse JSON into FocusSession data."))
+            if (importedData == null || importedData.focusSessions == null || importedData.entertainmentRecords == null) {
+                return@withContext Result.failure(Exception("Cannot parse JSON into complete BackupData structure. Old schema is unsupported."))
             }
 
             // Perform truncation and insertion
-            dao.clearAll()
-            importedData.forEach { session ->
-                dao.insertSession(session)
+            db.runInTransaction {
+                kotlinx.coroutines.runBlocking {
+                    focusDao.clearAll()
+                    entertainDao.clearAll()
+                    
+                    importedData.focusSessions.forEach { session ->
+                        focusDao.insertSession(session)
+                    }
+                    
+                    importedData.entertainmentRecords.forEach { record ->
+                        entertainDao.insertRecord(record)
+                    }
+                }
             }
 
-            Result.success(importedData.size)
+            Result.success(importedData.focusSessions.size + importedData.entertainmentRecords.size)
         } catch (e: Exception) {
             Result.failure(e)
         }

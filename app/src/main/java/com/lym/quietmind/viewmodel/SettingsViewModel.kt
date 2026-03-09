@@ -18,8 +18,8 @@ sealed class BackupState {
 }
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    private val dao = AppDatabase.getDatabase(application).focusSessionDao()
-    private val backupEngine = BackupEngine(dao)
+    private val db = AppDatabase.getDatabase(application)
+    private val backupEngine = BackupEngine(db)
 
     private val _backupState = MutableStateFlow<BackupState>(BackupState.Idle)
     val backupState: StateFlow<BackupState> = _backupState
